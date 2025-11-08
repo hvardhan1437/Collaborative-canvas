@@ -268,12 +268,12 @@ Created as a technical assessment demonstrating:
 
 ## ⏱️ Time Spent
 
-**Total Development Time**: ~18-20 hours
+**Total Development Time**: ~50-55 hours
 
 Breakdown:
-- Architecture & Planning: 2 hours
-- Frontend Implementation: 8 hours
-- Backend Implementation: 5 hours
-- Testing & Debugging: 3 hours
-- Documentation: 2 hours
+- Architecture & Planning: 8 hours
+- Frontend Implementation: 13 hours
+- Backend Implementation: 15 hours
+- Testing & Debugging: 10 hours
+- Documentation: 4 hours
 
