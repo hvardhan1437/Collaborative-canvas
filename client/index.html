@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collaborative Canvas - Real-time Drawing</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <h1>🎨 Collaborative Canvas</h1>
+            <div class="connection-status" id="connectionStatus">
+                <span class="status-dot"></span>
+                <span class="status-text">Connecting...</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="users-online" id="usersOnline">
+                <span class="users-count">0</span> users online
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Toolbar -->
+        <aside class="toolbar">
+            <div class="toolbar-section">
+                <h3>Tools</h3>
+                <div class="tool-buttons">
+                    <button class="tool-btn active" data-tool="brush" title="Brush">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                            <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                        </svg>
+                        <span>Brush</span>
+                    </button>
+                    <button class="tool-btn" data-tool="eraser" title="Eraser">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 20H7L3 16L10 9L15 14L21 8V20Z"></path>
+                        </svg>
+                        <span>Eraser</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="toolbar-section">
+                <h3>Color</h3>
+                <input type="color" id="colorPicker" value="#000000" class="color-picker">
+                <div class="color-presets" id="colorPresets">
+                    <button class="color-preset" data-color="#000000" style="background: #000000"></button>
+                    <button class="color-preset" data-color="#FF0000" style="background: #FF0000"></button>
+                    <button class="color-preset" data-color="#00FF00" style="background: #00FF00"></button>
+                    <button class="color-preset" data-color="#0000FF" style="background: #0000FF"></button>
+                    <button class="color-preset" data-color="#FFFF00" style="background: #FFFF00"></button>
+                    <button class="color-preset" data-color="#FF00FF" style="background: #FF00FF"></button>
+                    <button class="color-preset" data-color="#00FFFF" style="background: #00FFFF"></button>
+                    <button class="color-preset" data-color="#FFFFFF" style="background: #FFFFFF; border: 1px solid #ddd"></button>
+                </div>
+            </div>
+
+            <div class="toolbar-section">
+                <h3>Brush Size</h3>
+                <input type="range" id="brushSize" min="1" max="50" value="3" class="brush-slider">
+                <div class="brush-preview" id="brushPreview"></div>
+                <span class="brush-size-value" id="brushSizeValue">3px</span>
+            </div>
+
+            <div class="toolbar-section">
+                <h3>Actions</h3>
+                <div class="action-buttons">
+                    <button class="action-btn" id="undoBtn" title="Undo (Ctrl+Z)">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 7v6h6"></path>
+                            <path d="M21 17a9 9 0 00-9-9 9 9 0 00-6 2.3L3 13"></path>
+                        </svg>
+                        Undo
+                    </button>
+                    <button class="action-btn" id="redoBtn" title="Redo (Ctrl+Y)">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 7v6h-6"></path>
+                            <path d="M3 17a9 9 0 019-9 9 9 0 016 2.3l3 2.7"></path>
+                        </svg>
+                        Redo
+                    </button>
+                    <button class="action-btn danger" id="clearBtn" title="Clear Canvas">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
+                        </svg>
+                        Clear
+                    </button>
+                </div>
+            </div>
+
+            <div class="toolbar-section">
+                <h3>Active Users</h3>
+                <div class="users-list" id="usersList"></div>
+            </div>
+        </aside>
+
+        <!-- Canvas Area -->
+        <main class="canvas-container">
+            <canvas id="canvas" width="1200" height="800"></canvas>
+            <div class="cursors-layer" id="cursorsLayer"></div>
+            <div class="canvas-overlay" id="canvasOverlay">
+                <div class="overlay-message">Connecting to server...</div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="../shared/constants.js"></script>
+    <script src="js/CanvasEngine.js"></script>
+    <script src="js/StateManager.js"></script>
+    <script src="js/WebSocketClient.js"></script>
+    <script src="js/UIController.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
