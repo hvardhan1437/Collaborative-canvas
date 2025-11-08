@@ -9,7 +9,7 @@ A multi-user drawing application where multiple people can draw simultaneously o
 - **Drawing Tools**: Brush and eraser with adjustable size (1-50px)
 - **Color Picker**: Full color palette with quick-access presets
 - **Global Undo/Redo**: Works across all users using tombstone pattern
-- **User Management**: See who's online with unique colors for each user
+- **User Management**: See who's online 
 - **Cursor Tracking**: View other users' cursor positions in real-time
 - **Conflict Resolution**: Vector clock-based causal ordering
 
