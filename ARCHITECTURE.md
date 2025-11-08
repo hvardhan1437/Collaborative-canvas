@@ -7,8 +7,7 @@
 4. [WebSocket Protocol](#websocket-protocol)
 5. [Undo/Redo Strategy](#undoredo-strategy)
 6. [Conflict Resolution](#conflict-resolution)
-7. [Performance Decisions](#performance-decisions)
-8. [Scaling Considerations](#scaling-considerations)
+7. [Scaling Considerations](#scaling-considerations)
 
 ---
 
@@ -458,80 +457,6 @@ Vector Clock Analysis:
 
 ---
 
-## Performance Decisions
-
-### 1. Three-Layer Canvas Rendering
-
-**Problem**: Clearing and redrawing entire canvas on every point is expensive
-
-**Solution**:
-```javascript
-// Instead of:
-canvas.clear()
-redrawAllStrokes()  // O(n) operations
-
-// Do:
-drawIncrementalSegment()  // O(1) operation
-```
-
-**Benchmark**:
-- Traditional: ~45ms per frame (22 FPS)
-- Three-layer: ~15ms per frame (66 FPS)
-- **3x performance improvement**
-
-### 2. Event Batching
-
-**Problem**: Sending 60 network requests/second per user
-
-**Solution**:
-```javascript
-// Batch points every 16ms
-setInterval(() => {
-  if (queue.length > 0) {
-    send(queue)
-    queue = []
-  }
-}, 16)
-```
-
-**Impact**:
-- Before: 60 req/sec per user
-- After: 3-5 req/sec per user
-- **95% reduction in network calls**
-
-### 3. Stroke Optimization
-
-**Problem**: High-frequency mouse events create too many points
-
-**Solution**: Douglas-Peucker algorithm
-```javascript
-// Reduce points while maintaining shape
-optimizeStroke(points, tolerance = 2) {
-  // Keep only points that deviate > 2px from line
-  // 100 points → 20 points (typical)
-}
-```
-
-**Benefits**:
-- 80% reduction in data size
-- Faster network transmission
-- Lower memory usage
-
-### 4. Cursor Position Throttling
-
-**Problem**: Cursor movements generate 100+ events/second
-
-**Solution**:
-```javascript
-// Send cursor updates max 20 times/second
-throttle(sendCursor, 50ms)
-```
-
-**Why 20fps for cursors?**
-- Human eye perceives smooth motion at 15fps
-- 20fps provides comfortable buffer
-- Reduces network load significantly
-
 ---
 
 ## Scaling Considerations
@@ -612,21 +537,7 @@ throttle(sendCursor, 50ms)
    // No central authority needed
    ```
 
-### Performance Optimization Checklist
 
-- [x] Event batching implemented
-- [x] Incremental canvas rendering
-- [x] Cursor throttling
-- [x] Stroke optimization
-- [ ] WebWorker for heavy operations
-- [ ] OffscreenCanvas for background rendering
-- [ ] Canvas pooling for multiple layers
-- [ ] Compression (gzip/brotli) for WebSocket
-- [ ] Database indexing on roomId, timestamp
-- [ ] CDN for static assets
-- [ ] Redis caching for active rooms
-
----
 
 ## Testing Strategy
 
